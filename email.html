@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>文本框事件应用之邮箱验证</title>
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+	<style type="text/css">
+        body{font-size: 13px}
+
+        /*元素初始状态样式*/
+        .divInit{
+        	width:390px;height：55px;line-height: 55px;padding-left: 20px;
+        }
+        .txtInit{
+            border: #666 1px solid;padding: 3px;background-image: url('img/1.jpg');
+        }
+        .spanInit{
+        	width: 179px;height: 40px;line-height: 40px;float: right;margin-top: 8px;padding-left: 10px;background-repeat: no-repeat;
+        }
+
+        /*元素失去焦点样式*/
+        .divBlur{background-color: #feeec2;}
+        .txtBlur{boder:#666 1px solid;padding: 3px;background-image: url('img/2.jpg');}
+        .spnBlur{background-image: url('img/3.jpg');}
+
+        /*div获取焦点样式*/
+        .divFocu{background-color: #edffd5}
+        .sanSucc{background-image: url('img/4.jpg');margin-top: 20px;}
+	</style>
+
+	<script type="text/javascript">
+        $(function() {
+        	$("#txtEmail").trigger("focus");//默认时文本框获取焦点
+        	$("#txtEmail").focus(function() {//文本框获取焦点事件
+        		$(this).removeClass("txtBlur").addClass("txtInit");
+        		$("email").removeClass("divBlur").addClass("divFocu");
+        		$("#spnTip").removeClass("spnBlur").removeClass("spnSucc").html("请输入您常用邮箱地址！")；
+        	})
+
+        	$("#txtEmail").blur(function() {//文本框丢失焦点事件
+        	var vtxt=$("#txtEmail").val();
+        	if(vtxt.length==0) {
+        		$(this).removeClass("txtInit").addClass("txtBlur");
+        		$("#email").removeClass("divFocu").addClass("divBlur");
+        		$(#spnTip).addClass("spnBlur").html("邮箱地址不能为空！")；
+        	}else{
+        		if(!chkEmail(vtxt)){//检测邮箱格式
+        			$(this).removeClass("txtInit").addClass("txtBlur");
+        			$("#email").removeClass("divFocu").addClass("divBlur");
+        		    $(#spnTip).addClass("spnBlur").html("邮箱格式不正确！")；
+        		}else{
+        			$(this).removeClass("txtBlur").addClass("txtInit");
+        			$("#email").removeClass("divFocu").addClass("divBlur");
+        		    $(#spnTip).addClass("spnBlur").html("")；
+        		}
+        	}
+        })
+        	function chkEmail(strEmail) {
+        		if(!/^\w+([-+.]\w+)*@\W+([-.]\w+)*\.\w+([-.]\w+)*$/.test(strEmail)) {
+        			return false;
+        		}
+        		else {
+        			return true;
+        		}
+        	}
+        })
+
+        
+
+	</script>
+</head>
+<body>
+	<form action="#" id="from1">
+        <div id="email" class="divInit">邮箱：
+            <span id="spnTip" class="spnInit"></span>
+            <input type="text" id="txtEmail" type="text" class="txtInit" />
+        </div>
+	</form>
+</body>
+</html>
